@@ -1,0 +1,25 @@
+<div class="dialog-preview--wrapper" (click)="openDialog()">
+  <article>
+    <div class="dialog-preview--pic">
+      <img [src]="conversant?.pictureSrc" alt="pic" />
+    </div>
+
+    <strong class="dialog-preview--name">{{ conversant?.name }}</strong>
+
+    <div class="dialog-preview--message-wrapper" [ngClass]="{ 'dialog-preview_opacity-layer': isUnreadMessage }">
+      <p class="dialog-preview--message">
+        {{ dialogPreview?.latestMessage?.text }}
+      </p>
+
+      <p class="dialog-preview--time">
+        {{ dialogPreview?.latestMessage?.displayTime }}
+      </p>
+
+       <strong *ngIf="isNewMessage">🔘</strong>
+    </div>
+
+    <button class="dialog-preview--close-button" (click)="deleteDialog($event)">
+      X
+    </button>
+  </article>
+</div>

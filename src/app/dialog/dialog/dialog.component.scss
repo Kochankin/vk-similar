@@ -1,0 +1,61 @@
+:host {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+
+  background-color: #701ba8;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+  .dialog--header {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+  }
+
+  .dialog--back-button {
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .dialog--name {
+    margin: auto;
+  }
+
+  .dialog--messages {
+    flex-grow: 1;
+    background-color: white;
+    overflow: auto;
+  }
+
+  .dialog--new-message {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dialog--textarea {
+    resize: none;
+    font-family: Quicksand;
+    font-size: 16px;
+    padding: 8px;
+    margin: 12px;
+  }
+
+  .dialog--send-button {
+    border-radius: 3px;
+    padding: 8px;
+    width: 50%;
+    margin: 8px auto;
+    cursor: pointer;
+  }
+
+}
+
+::ng-deep {
+  .search--input {
+    width: auto !important;
+  }
+}

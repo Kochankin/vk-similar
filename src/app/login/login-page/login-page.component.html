@@ -1,0 +1,28 @@
+<section class="login-page">
+  <h1>Login</h1>
+  <div class="login--input-container">
+    <strong>Email</strong>
+    <input
+      class="login--input"
+      name="email"
+      [(ngModel)]="email"
+      placeholder="Enter your email"
+      type="email"
+    />
+  </div>
+
+  <div class="login--input-container">
+    <strong>Password</strong>
+    <input
+      class="login--input"
+      name="password"
+      [(ngModel)]="password"
+      placeholder="Enter your password"
+      type="password"
+    />
+  </div>
+
+  <button class="login--button" (click)="onButtonClick()">Login</button>
+  
+  <span *ngIf="!isCorrectCredentials" class="login--error">Credentials are incorrect!</span>
+</section>

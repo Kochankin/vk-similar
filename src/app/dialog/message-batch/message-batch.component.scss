@@ -1,0 +1,49 @@
+:host {
+  display: block;
+  margin: 12px 0;
+
+  .message-batch {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .message-batch_opacity-layer {
+    background-color: #e9ecf2;
+    opacity: 0.5;
+    border-radius: 3px;
+  }
+
+  .message-batch_reverse {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+
+  .message-batch--pic {
+    margin: 8px;
+  }
+
+  img {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+  }
+
+  .message-batch--messages {
+    display: flex;
+    flex-direction: column;
+    word-break: break-all;
+    width: 100%;
+  }
+
+  .message-batch--message {
+    padding: 8px;
+    margin: 0;
+  }
+
+  .message-batch--delete-button {
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}

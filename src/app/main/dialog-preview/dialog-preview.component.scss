@@ -1,0 +1,70 @@
+:host {
+  display: block;
+}
+
+article {
+  display: grid;
+  grid-template-columns: 80px 1fr 50px 30px;
+  grid-template-rows: 30px 50px;
+  background-color: #eee6f2;
+  text-align: center;
+  padding: 8px;
+  margin: 8px 0;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.dialog-preview_opacity-layer {
+  background-color: #d4cdd4;
+  opacity: 0.5;
+  border-radius: 3px;
+}
+
+.dialog-preview--wrapper {
+  cursor: pointer;
+}
+
+.dialog-preview--pic {
+  grid-column: 1;
+  grid-row: 1/3;
+  padding: 8px;
+}
+
+.dialog-preview--name {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 8px;
+}
+
+.dialog-preview--message-wrapper {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+
+.dialog-preview--message {
+  margin: 0;
+  padding: 8px;
+}
+
+.dialog-preview--time {
+  margin: 0;
+  padding: 8px;
+}
+
+.dialog-preview--close-button {
+  grid-column: 4;
+  grid-row: 1;
+  border: none;
+  background-color: transparent;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px;
+}
+
+img {
+  border-radius: 50%;
+  max-width: 100%;
+  height: auto;
+}

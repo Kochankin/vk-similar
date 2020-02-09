@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+
+  .add-dialog--header {
+    text-align: center;
+  }
+
+  .add-dialog--input {
+    margin: 10px;
+    padding: 8px;
+    width: 250px;
+    border-radius: 3px;
+  }
+
+  .add-dialog--button {
+    border-radius: 3px;
+    padding: 8px;
+    width: 50%;
+    margin: 0 auto;
+    background-color: #701ba8;
+    color: white;
+    cursor: pointer;
+  }
+}

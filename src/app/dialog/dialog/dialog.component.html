@@ -1,0 +1,27 @@
+<header class="dialog--header">
+  <button class="dialog--back-button" (click)="onBackClick()">← Back</button>
+
+  <strong class="dialog--name">{{ recepient?.name }}</strong>
+</header>
+
+<section class="dialog--messages">
+  <app-message-batch
+    *ngFor="let messagesBatch of messagesBatchesList$ | async"
+    [messagesBatch]="messagesBatch"
+    (deleteEmitter)="deleteMessage($event)"
+  >
+  </app-message-batch>
+</section>
+
+<section class="dialog--new-message">
+  <textarea
+    class="dialog--textarea"
+    cols="30"
+    rows="8"
+    placeholder="Type a message.."
+    [(ngModel)]="newMessage"
+  ></textarea>
+  <button class="dialog--send-button" (click)="sendMessage(newMessage)">
+    Send
+  </button>
+</section>

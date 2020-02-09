@@ -1,0 +1,26 @@
+<section
+  class="message-batch"
+  [ngClass]="{ 'message-batch_reverse': messagesBatch?.isUser }"
+>
+  <div class="message-batch--pic">
+    <img [src]="messagesBatch?.author?.pictureSrc" alt="pic" />
+  </div>
+
+  <section class="message-batch--messages">
+    <p
+      *ngFor="let message of messagesBatch?.messages"
+      class="message-batch--message"
+      [ngClass]="{ 'message-batch_opacity-layer': isUnreadMessage(message) }"
+    >
+      {{ message.text }}
+      {{ message.displayTime }}
+
+      <button
+        class="message-batch--delete-button"
+        (click)="removeMessage(message)"
+      >
+        X
+      </button>
+    </p>
+  </section>
+</section>

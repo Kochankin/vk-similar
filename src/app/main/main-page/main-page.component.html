@@ -1,0 +1,16 @@
+<app-add-dialog (addDialogEmitter)="addDialog($event)"></app-add-dialog>
+
+<section class="main-page">
+  <header>
+    <app-search></app-search>
+
+    <button class="main--logout" (click)="logout()">Logout</button>
+  </header>
+
+  <ng-container *ngFor="let dialogPreview of dialogPreviews$ | async">
+    <app-dialog-preview 
+      [dialogPreview]="dialogPreview"
+      (deleteEmitter)="deleteDialog($event)"
+    ></app-dialog-preview>
+  </ng-container>
+</section>

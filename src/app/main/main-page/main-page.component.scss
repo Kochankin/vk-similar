@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+
+  .main-page {
+    width: 70%;
+    height: 100%;
+    margin: 0 auto;
+
+    background-color: #701ba8;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .main--logout {
+    border-radius: 3px;
+    padding: 8px;
+    width: 20%;
+    margin: 8px;
+    cursor: pointer;
+  }
+}
