@@ -3,12 +3,26 @@ import { IMessage, Message } from "src/app/shared/models/message";
 import { IUser } from "./../models/user";
 import { Injectable } from "@angular/core";
 import { users } from 'src/app/shared/local-storage-service/default-data/users';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
   providedIn: "root"
 })
 export class LocalStorageService {
+  private _user$: BehaviorSubject<IUser>;
+  public get user$(): BehaviorSubject<IUser> {
+    return this._user$;
+  }
+
+  constructor(){
+    const user = this.getIsLoggedIn() 
+      ? this.getUserByKey('id', this.getUserID())
+      : null;
+
+    this._user$ = new BehaviorSubject(user);
+  }
+  
   public getIsLoggedIn(): boolean {
     return this.read('isLoggedIn');
   }
@@ -22,10 +36,12 @@ export class LocalStorageService {
   }
 
   public setUserID(id: number): void {
+    this._user$.next(this.getUserByKey('id', id));
     this.write("userID", id);
   }
 
   public removeUserID(): void {
+    this._user$.next(null);
     this.remove("userID");
   }
 
@@ -55,6 +71,16 @@ export class LocalStorageService {
 
     const transformedMessages = messages.filter(msg => msg !== message);
     this.write("messages", transformedMessages);
+  }
+
+  public updateMessage(updatedMessage: Message): void {
+    const messages = this.read("messages");
+    const index = messages.findIndex((message: IMessage) => {
+      return (message.timestamp === updatedMessage.timestamp && message.authorID === updatedMessage.authorID);
+    });
+   
+    messages.splice(index, 1, Message.deparse(updatedMessage));
+    this.write("messages", messages);
   }
 
   public setDefaultDataToLocalStorage(): void {

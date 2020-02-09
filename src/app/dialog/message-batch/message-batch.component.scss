@@ -7,22 +7,16 @@
     flex-direction: row;
   }
 
-  .message-batch_opacity-layer {
-    background-color: #e9ecf2;
-    opacity: 0.5;
-    border-radius: 3px;
-  }
-
   .message-batch_reverse {
     flex-direction: row-reverse;
     text-align: right;
   }
 
-  .message-batch--pic {
+  .message-batch--image-wrapper {
     margin: 8px;
   }
 
-  img {
+  .message-batch--image {
     border-radius: 50%;
     height: 50px;
     width: 50px;
@@ -38,6 +32,12 @@
   .message-batch--message {
     padding: 8px;
     margin: 0;
+  }
+
+  .message-batch--message_opacity-layer {
+    background-color: #e9ecf2;
+    opacity: 0.5;
+    border-radius: 3px;
   }
 
   .message-batch--delete-button {

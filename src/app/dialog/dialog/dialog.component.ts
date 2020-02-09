@@ -6,7 +6,6 @@ import { User } from "src/app/shared/models/user";
 import { BehaviorSubject } from "rxjs";
 import { Message } from "src/app/shared/models/message";
 import { DialogService } from "../dialog-service/dialog.service";
-import { LocalStorageService } from 'src/app/shared/local-storage-service/local-storage.service';
 
 
 @Component({
@@ -20,6 +19,8 @@ export class DialogComponent implements OnInit {
     return this._messagesBatchesList$;
   }
 
+  private _user: User;
+  
   private _recepient: User;
   public get recepient(): User {
     return this._recepient;
@@ -31,15 +32,15 @@ export class DialogComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _dialogService: DialogService,
-    private _localStorageService: LocalStorageService,
-  ) {}
+  ) {
+    this._dialogService.user$.subscribe(user => this._user = user);
+  }
 
   ngOnInit() {
     const batchesList = this._activatedRoute.snapshot.data.dialog as MessagesBatch[];   
-    const latestBatch = batchesList.pop();  
+    let latestBatch = batchesList.pop();  
 
     if (!latestBatch.isUser) {
-      
       const messages = latestBatch.messages.map((message: Message) => {
         const { text, authorID, recipientID, timestamp } = message;
         const newMessage = Message.parse({ text, authorID, recipientID, timestamp, isRead: true });
@@ -48,9 +49,9 @@ export class DialogComponent implements OnInit {
       });
 
       const { author, recepient, isUser } = latestBatch; 
-      const newBatch = MessagesBatch.parse({ author, recepient, isUser, messages });
-      batchesList.push(newBatch);
+      latestBatch = MessagesBatch.parse({ author, recepient, isUser, messages });
     }
+    batchesList.push(latestBatch);
 
     this._messagesBatchesList$ = new BehaviorSubject(batchesList);
     this._recepient = latestBatch.isUser ? latestBatch.recepient : latestBatch.author;
@@ -63,13 +64,11 @@ export class DialogComponent implements OnInit {
   public sendMessage(newMessageText: string): void {
     if (!newMessageText) { return; }
 
-    const userID = this._localStorageService.getUserID();
-    const USER = User.parse(this._localStorageService.getUserByKey('id', userID));
     const list = this._messagesBatchesList$.value;
 
     const formattedMessage = Message.parse({
       text: newMessageText,
-      authorID: USER.id,
+      authorID: this._user.id,
       recipientID: this._recepient.id,
       timestamp: new Date().getTime(),
       isRead: false
@@ -81,14 +80,14 @@ export class DialogComponent implements OnInit {
     if (lastBatch && lastBatch.isUser) {
       list.pop();
       newBatch = MessagesBatch.parse({
-        author: USER,
+        author: this._user,
         recepient: this._recepient,
         messages: [...lastBatch.messages, formattedMessage],
         isUser: true
       });
     } else {
       newBatch = MessagesBatch.parse({
-        author: USER,
+        author: this._user,
         recepient: this._recepient,
         messages: [formattedMessage],
         isUser: true

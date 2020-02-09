@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { MessagesBatch } from "src/app/shared/models/messages-batch";
 import { User } from "src/app/shared/models/user";
@@ -9,17 +11,24 @@ import { LocalStorageService } from 'src/app/shared/local-storage-service/local-
   providedIn: "root"
 })
 export class DialogService {
-  constructor(
-    private _localStorageService: LocalStorageService
-  ){}
+  private _user$: Observable<User>;
+  public get user$(): Observable<User> {
+    return this._user$;
+  }
+
+  private _user: User;
+
+  constructor(private _localStorageService: LocalStorageService){
+    this._user$ = this._localStorageService.user$.pipe(
+      map(user => user && User.parse(user))
+    );
+    this._user$.subscribe(user => this._user = user);
+  }
 
   public getMessagesBatches(recepientID: number): MessagesBatch[] {
-    const userID = this._localStorageService.getUserID();
-    const USER = User.parse(this._localStorageService.getUserByKey('id', userID));
-   
     const messages = this._localStorageService.getFilteredMessages((message: IMessage) => {
-        return message.authorID === USER.id && message.recipientID === recepientID
-          || message.authorID === recepientID && message.recipientID === USER.id;
+        return message.authorID === this._user.id && message.recipientID === recepientID
+          || message.authorID === recepientID && message.recipientID === this._user.id;
       });
 
     const sorted = messages.sort((msgA, msgB) => msgA.timestamp - msgB.timestamp);
@@ -49,7 +58,7 @@ export class DialogService {
           author: User.parse(author),
           recepient: User.parse(recepient),
           messages: msgs.map(msg => Message.parse(msg)),
-          isUser: author.id === USER.id
+          isUser: author.id === this._user.id
         });
       });
   }
@@ -63,10 +72,6 @@ export class DialogService {
   }
 
   public updateMessage(newMessage: Message): void {   
-    const message = this._localStorageService.getFilteredMessages((message: IMessage) => {
-      return message.authorID === newMessage.authorID && message.timestamp === newMessage.timestamp;
-    })[0];
-    this._localStorageService.removeMessage(Message.parse(message));
-    this._localStorageService.addMessage(newMessage);
+    this._localStorageService.updateMessage(newMessage);
   }
 }
